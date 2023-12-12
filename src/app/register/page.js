@@ -1,6 +1,7 @@
 'use client'
 import { Input, Button } from '@nextui-org/react'
 import { errorHelper } from '@/components/utils'
+import {signIn} from 'next-auth/react';
 
 import { useFormik } from "formik";
 import { useState } from 'react';
@@ -23,6 +24,15 @@ export default function RegisterPage(){
         }
     });
 
+    const signUser = async(values) => {
+        await signIn('credentials',{
+            redirect:true,
+            email: values.email,
+            password: values.password,
+            callbackUrl:'/dashboard'
+        })
+    }
+
 
     const submitForm = async(values) => {
         if(formType){
@@ -36,9 +46,12 @@ export default function RegisterPage(){
             });
             const user = await res.json();
             if(!res.ok){ alert(user.error) }
-            console.log(user)
+            else {
+                signUser(values)
+            }
         } else {
             /// sign in
+            signUser(values)
         }
     }
 
