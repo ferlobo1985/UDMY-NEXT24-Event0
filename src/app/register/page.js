@@ -19,7 +19,7 @@ export default function RegisterPage(){
             .required('Sorry the password is required')
         }),
         onSubmit: async(values)=>{
-            console.log(values)
+            submitForm(values)
         }
     });
 
@@ -27,6 +27,16 @@ export default function RegisterPage(){
     const submitForm = async(values) => {
         if(formType){
             /// register
+            const res = await fetch('/api/register',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(values)
+            });
+            const user = await res.json();
+            if(!res.ok){ alert(user.error) }
+            console.log(user)
         } else {
             /// sign in
         }
