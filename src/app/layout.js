@@ -1,7 +1,8 @@
 import { Roboto, Anton } from 'next/font/google';
 import './globals.css'
 import Nav from '@/components/header/nav'
-import Provider from './provider';
+import Provider from '@/providers/provider'
+import AuthProvider from '@/providers/authProvider'
 
 
 const roboto = Roboto({
@@ -29,10 +30,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${roboto.variable} ${anton.variable}`}>
       <body>
-      <Provider>
-        <Nav/>
-        {children}
-      </Provider>
+        <AuthProvider>
+          <Provider>
+            <Nav/>
+            {children}
+          </Provider>
+      </AuthProvider>
       </body>
     </html>
   )
