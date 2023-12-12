@@ -24,6 +24,15 @@ export default function RegisterPage(){
     });
 
 
+    const submitForm = async(values) => {
+        if(formType){
+            /// register
+        } else {
+            /// sign in
+        }
+    }
+
+
     const handleFormType = () => {
         setFormType(!formType)
     }
