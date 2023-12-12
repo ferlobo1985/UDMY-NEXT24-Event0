@@ -1,5 +1,6 @@
 'use client'
 import { Input, Button } from '@nextui-org/react'
+import { errorHelper } from '@/components/utils'
 
 import { useFormik } from "formik";
 import { useState } from 'react';
@@ -33,6 +34,26 @@ export default function RegisterPage(){
             <h1 className='text-5xl py-10'>{formType ? "Register":"Sign in"}</h1>
             
 
+            <div className='mb-5'>
+                <Input
+                    type='email'
+                    label='Email'
+                    variant='bordered'
+                    fullWidth={true}
+                    {...formik.getFieldProps("email")}
+                    {...errorHelper(formik,'email')}
+                />
+            </div>
+            <div className='mb-5'>
+                <Input
+                    type='password'
+                    label='Password'
+                    variant='bordered'
+                    fullWidth={true}
+                    {...formik.getFieldProps("password")}
+                    {...errorHelper(formik,'password')}
+                />
+            </div>
 
 
 
