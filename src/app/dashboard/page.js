@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth/next'
 export default async function DashboardPage(){
     const session = await getServerSession(options);
 
-    console.log(session)
+    //console.log(session)
 
     return(
         <>

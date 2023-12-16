@@ -1,5 +1,5 @@
 'use client'
-import {Navbar, NavbarBrand, NavbarContent, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Button} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Button, DropdownSection} from "@nextui-org/react";
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react'
 
@@ -34,21 +34,30 @@ export default function NavComponent(){
                     </DropdownTrigger>
 
                     <DropdownMenu aria-label="User actions" variant="flat">
-                        <DropdownItem key="dashboard" textValue="dashboard">
-                            <Link href="/dashboard">Dashboard</Link>
-                        </DropdownItem>
-                        <DropdownItem key="posts" textValue="posts">
-                            <Link href="/posts">Posts</Link>
-                        </DropdownItem>
-                        { !session ?
-                            <DropdownItem key="register" textValue="register">
-                                <Link href="/register">Register</Link>
+                        <DropdownSection>
+                            { !session ?
+                                <DropdownItem key="register" textValue="register">
+                                    <Link href="/register">Register</Link>
+                                </DropdownItem>
+                            :
+                                <DropdownItem key="log_out" textValue="log out" onClick={logoutUser}>
+                                    Log out
+                                </DropdownItem>
+                            }
+                        </DropdownSection>
+                        { session ?  
+                        <DropdownSection title="Admin actions">
+                            <DropdownItem key="dashboard" textValue="dashboard">
+                              <Link href="/dashboard">Dashboard</Link>
                             </DropdownItem>
-                        :
-                            <DropdownItem key="log_out" textValue="log out" onClick={logoutUser}>
-                                Log out
+                            <DropdownItem key="addevents" textValue="Add events">
+                              <Link href="/dashboard/add_event">Add event</Link>
                             </DropdownItem>
-                        }
+                            <DropdownItem key="addvenue" textValue="Add venue">
+                              <Link href="/dashboard/add_venue">Add venue</Link>
+                            </DropdownItem>
+                        </DropdownSection>
+                        :null}
                     </DropdownMenu>
                 </Dropdown>
             </NavbarContent>
