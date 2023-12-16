@@ -2,8 +2,23 @@
 
 import DBconnect from '@/lib/db';
 import Venue from '@/lib/models/venue'
+import Event from '@/lib/models/events';
 import { redirect, notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+
+export async function findEvents(skip,limit){
+    try{
+        await DBconnect();
+        const request = await Event.find({})
+        .populate({path:'venue',model:Venue})
+        .sort([['_id','desc']])
+        .skip(skip)
+        .limit(limit);
+        return request;
+    } catch(error){
+        throw new Error(error)
+    }
+}
 
 
 
