@@ -20,6 +20,13 @@ const breakpointColumnsObj = {
 
 export default function EventsMasonryComponent({eventShows}){
     const [events, setEvents] = useState(eventShows)
+    const randHeight = (number) =>{
+        // even
+        if( number % 2 === 0) { return 200}
+        // odd
+        return 300;
+    }
+
 
 
     return(
@@ -32,9 +39,33 @@ export default function EventsMasonryComponent({eventShows}){
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
                 >
-                    
+                    { events?.map((event,index)=>(
+                    <Card
+                        key={`${event._id}+${index}`}
+                        isFooterBlurred
+                        className="w-full min-h-200 col-span-12 sm:col-span-7"
+                    >   
+                        <CardHeader className="absolute z-10 top-0 flex-col items-start bd-black/40">
+                            <p className="text-tiny text-white/60 uppercase font-bold">
+                                {event.venue.name}
+                            </p>
+                            <h4 className="text-white/90 font-medium text-xl">
+                                {event.artist}
+                            </h4>
+                        </CardHeader>
+                        <UIimage
+                            isZoomed={true}
+                            isBlurred={true}
+                            removeWrapper
+                            alt="Card background"
+                            className="z-0 w-full h-full object-cover"
+                            src={`http://picsum.photos/200/${randHeight(index)}?${index}`}
+                        
+                        />
 
 
+                    </Card>
+                    ))}
                 </Masonry>
 
             </div>
