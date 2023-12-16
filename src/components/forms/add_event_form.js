@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFormState } from 'react-dom'
 
-export default function AddEventComponent({venuesList}){
+export default function AddEventComponent({venuesList,postEvent}){
     const [startDate, setStartDate] = useState(null);
 
 
@@ -127,3 +127,5 @@ const CustomPickerButton = forwardRef(({value, onClick,formik},ref)=>(
         :null}
     </>
 ))
+
+CustomPickerButton.displayName = "CustomPickerButton"
