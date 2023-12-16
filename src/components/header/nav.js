@@ -51,10 +51,10 @@ export default function NavComponent(){
                               <Link href="/dashboard">Dashboard</Link>
                             </DropdownItem>
                             <DropdownItem key="addevents" textValue="Add events">
-                              <Link href="/dashboard/add_event">Add event</Link>
+                              <Link href="/dashboard/add_event">Add Event</Link>
                             </DropdownItem>
                             <DropdownItem key="addvenue" textValue="Add venue">
-                              <Link href="/dashboard/add_venue">Add venue</Link>
+                              <Link href="/dashboard/add_venue">Add Venue</Link>
                             </DropdownItem>
                         </DropdownSection>
                         :null}

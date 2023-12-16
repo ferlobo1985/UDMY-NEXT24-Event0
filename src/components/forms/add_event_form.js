@@ -1,5 +1,5 @@
 'use client'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { Input, Button, Divider, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { errorHelper } from '@/components/utils'
 
@@ -9,10 +9,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useFormState } from 'react-dom'
+import { redirect } from 'next/navigation';
 
 export default function AddEventComponent({venuesList,postEvent}){
-    const [startDate, setStartDate] = useState(null);
+    const initialState = {message: null};
+    const [state, formAction] = useFormState(postEvent,initialState)
 
+    const [startDate, setStartDate] = useState(null);
 
     const formik = useFormik({
         initialValues:{
@@ -30,9 +33,17 @@ export default function AddEventComponent({venuesList,postEvent}){
             slug:Yup.string().required('Sorry the slug is required'),
         }),
         onSubmit: async(value)=>{
-            console.log(value)
+            formAction(value)
         }
     })
+
+    useEffect(()=>{
+        if(state?.message === 'ok'){
+            alert('good job')
+            redirect('/dashboard')
+        }
+    },[state])
+
 
 
     return(
@@ -102,6 +113,12 @@ export default function AddEventComponent({venuesList,postEvent}){
             <Button color="secondary" variant="solid" type="submit">
                 Add Event
             </Button>
+
+            { state?.message && state?.message !== 'ok' ?
+                <div className='my-5 text-red-600'>
+                    {state.message}
+                </div>
+            :null}
 
 
         </form>

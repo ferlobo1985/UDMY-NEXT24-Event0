@@ -12,7 +12,8 @@ const eventSchema = new mongoose.Schema({
     slug:{
         type:String,
         unique:true,
-        index: true
+        index: true,
+        required:true
     }
 })
 

@@ -14,7 +14,7 @@ export default async function AddEventPage(){
         await DBconnect();
         try {
             const newEvent = new Event({
-                ...formdata
+                ...formdata,
             });
             await newEvent.save();
             revalidatePath('/dashboard')
