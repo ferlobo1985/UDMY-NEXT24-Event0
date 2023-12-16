@@ -1,8 +1,11 @@
 import { Roboto, Anton } from 'next/font/google';
 import './globals.css'
+import 'react-toastify/dist/ReactToastify.css';
+
 import Nav from '@/components/header/nav'
 import Provider from '@/providers/provider'
 import AuthProvider from '@/providers/authProvider'
+import { ToastContainer } from 'react-toastify'
 
 
 const roboto = Roboto({
@@ -34,6 +37,7 @@ export default function RootLayout({ children }) {
           <Provider>
             <Nav/>
             {children}
+            <ToastContainer/>
           </Provider>
       </AuthProvider>
       </body>

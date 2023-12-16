@@ -1,4 +1,5 @@
 'use client'
+import { toast } from 'react-toastify'
 import { forwardRef, useEffect, useState } from 'react'
 import { Input, Button, Divider, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { errorHelper } from '@/components/utils'
@@ -39,7 +40,9 @@ export default function AddEventComponent({venuesList,postEvent}){
 
     useEffect(()=>{
         if(state?.message === 'ok'){
-            alert('good job')
+            toast.success("Post added correctly!",{
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
             redirect('/dashboard')
         }
     },[state])
