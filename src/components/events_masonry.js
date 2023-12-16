@@ -18,8 +18,9 @@ const breakpointColumnsObj = {
     500: 1
 };
 
-export default function EventsMasonryComponent({eventShows}){
-    const [events, setEvents] = useState(eventShows)
+export default function EventsMasonryComponent({eventShows,loadMore}){
+    const [events, setEvents] = useState(eventShows);
+    const [loadButton, setLoadButton ] =  useState(true)
     const randHeight = (number) =>{
         // even
         if( number % 2 === 0) { return 200}
@@ -27,7 +28,19 @@ export default function EventsMasonryComponent({eventShows}){
         return 300;
     }
 
+    const moreHandler = async()=>{
+        setLoadButton(false);
+        const newEvents = await loadMore(events.length,3);
 
+        if( newEvents.length === 0){
+            setLoadButton(false);
+        } else{
+            setLoadButton(true);
+            setEvents( prevState => {
+                return [...prevState,...newEvents]
+            })
+        }
+    }
 
     return(
         <>
@@ -45,7 +58,7 @@ export default function EventsMasonryComponent({eventShows}){
                         isFooterBlurred
                         className="w-full min-h-200 col-span-12 sm:col-span-7"
                     >   
-                        <CardHeader className="absolute z-10 top-0 flex-col items-start bd-black/40">
+                        <CardHeader className="absolute z-10 top-0 flex-col items-start bg-black/40">
                             <p className="text-tiny text-white/60 uppercase font-bold">
                                 {event.venue.name}
                             </p>
@@ -62,11 +75,20 @@ export default function EventsMasonryComponent({eventShows}){
                             src={`http://picsum.photos/200/${randHeight(index)}?${index}`}
                         
                         />
-
-
+                        <CardFooter className="absolute bg-black/40 bottom-0 z-10">
+                            <Button radius="full" size="sm" as={Link} href={`/events/${event.slug}`}>
+                                Go to event
+                            </Button>
+                        </CardFooter>
                     </Card>
                     ))}
                 </Masonry>
+                <Divider className="mb-5"/>
+                { loadButton ?
+                <Button color="primary" variant="ghost" size="lg" onClick={moreHandler}>
+                    Load more
+                </Button>
+                :null}
 
             </div>
         </>
