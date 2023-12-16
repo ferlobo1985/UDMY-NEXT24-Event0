@@ -1,13 +1,17 @@
 'use client'
+import { addVenue } from '@/lib/actions/actions'
 import { Input, Button, Divider, Select, SelectItem } from "@nextui-org/react";
 import { states } from '@/components/states';
+import { errorHelper } from '@/components/utils'
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useFormState } from 'react-dom'
 
 
 export default function AddVenueComponent(){
-
+    const initialState = {message: null};
+    const [state, formAction] = useFormState(addVenue,initialState)
 
     const formik =  useFormik({
         initialValues:{
@@ -21,7 +25,7 @@ export default function AddVenueComponent(){
             state:Yup.string().required('Sorry the state is required')
         }),
         onSubmit: async (values) =>{
-            console.log(values)
+            formAction(values)
         }
     })
 
@@ -36,6 +40,8 @@ export default function AddVenueComponent(){
                 label="Venue name"
                 variant="bordered"
                 fullWidth={true}
+                {...formik.getFieldProps("name")}
+                {...errorHelper(formik,"name")}
             />
 
             <Input
@@ -44,6 +50,8 @@ export default function AddVenueComponent(){
                 label="Address"
                 variant="bordered"
                 fullWidth={true}
+                {...formik.getFieldProps("address")}
+                {...errorHelper(formik,"address")}
             />
 
             <Select
@@ -52,6 +60,8 @@ export default function AddVenueComponent(){
                 placeholder="Select the state"
                 fullWidth={true}
                 className="mb-5"
+                {...formik.getFieldProps("state")}
+                {...errorHelper(formik,"state")}
             >
                 {(state)=><SelectItem key={state.name}>{state.name}</SelectItem>}
             </Select>
@@ -60,8 +70,11 @@ export default function AddVenueComponent(){
                 Add venue
             </Button>
 
+            { state?.message ?
+                <div className='my-5 text-red-600'>
+                    {state.message}
+                </div>
+            :null}
         </form>
     )
-
-
 }
