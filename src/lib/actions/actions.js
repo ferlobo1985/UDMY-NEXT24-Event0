@@ -6,6 +6,18 @@ import Event from '@/lib/models/events';
 import { redirect, notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
+export async function findEventById(id){
+    await DBconnect();
+    const request = await Event.find({slug:id}).populate({path:'venue',model:Venue}).exec();
+
+    if(!request.length > 0){
+        return notFound()
+    }
+    return request[0];
+}
+
+
+
 export async function findEvents(skip,limit){
     try{
         await DBconnect();
