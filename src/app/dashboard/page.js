@@ -1,10 +1,10 @@
-import { options } from '@/api/auth/[...nextauth]/options'
-import { getServerSession } from 'next-auth/next'
+import { getPaginatedEvents } from '@/lib/actions/actions'
+
 
 export default async function DashboardPage(){
-    const session = await getServerSession(options);
+    const pagedEvents = await getPaginatedEvents(1,3);
 
-    //console.log(session)
+    console.log(pagedEvents)
 
     return(
         <>

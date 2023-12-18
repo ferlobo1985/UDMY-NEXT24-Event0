@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
 const eventSchema = new mongoose.Schema({
     artist:String,
@@ -17,4 +18,5 @@ const eventSchema = new mongoose.Schema({
     }
 })
 
+eventSchema.plugin(aggregatePaginate)
 export default mongoose.models.Event || mongoose.model('Event', eventSchema)

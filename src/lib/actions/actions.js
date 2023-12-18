@@ -17,6 +17,32 @@ export async function findEventById(id){
 }
 
 
+export async function getPaginatedEvents(page,limit){
+    await DBconnect();
+    let aggQueryArray = [];
+    aggQueryArray.push(
+        { $lookup:
+            {
+                from:'venues',
+                localField:'venue',
+                foreignField:'_id',
+                as:'venue'
+            }
+        },
+        { $unwind:'$venue'}
+    )
+    let aggQuery = Event.aggregate(aggQueryArray)
+
+    const options ={
+        page,
+        limit,
+        sort:{_id:'desc'}
+    }
+    const events = await Event.aggregatePaginate(aggQuery,options);
+    return JSON.parse(JSON.stringify(events))
+}
+
+
 
 export async function findEvents(skip,limit){
     try{
